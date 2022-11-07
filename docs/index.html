@@ -135,11 +135,11 @@
         var db = indexedDB.open("dummy_indexdb", 1); // iOS 14.6 fix; the call to open indexdb hangs forever otherwise
 
         const buildUrl = "Build";
-        const loaderUrl = buildUrl + "/htdocs.loader.js";
+        const loaderUrl = buildUrl + "/docs.loader.js";
         const config = {
-            dataUrl: buildUrl + "/htdocs.data.unityweb",
-            frameworkUrl: buildUrl + "/htdocs.framework.js.unityweb",
-            codeUrl: buildUrl + "/htdocs.wasm.unityweb",
+            dataUrl: buildUrl + "/docs.data.unityweb",
+            frameworkUrl: buildUrl + "/docs.framework.js.unityweb",
+            codeUrl: buildUrl + "/docs.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
             companyName: "DefaultCompany",
             productName: "image-tracking-3d-animation",
