@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>image-tracking-3d-animation</title>
+
+</head>
+
+<body class="dark">
+    <script>
+async function myFunction(url) {
+  try {
+    await navigator.share(url);
+console.log("OK");
+  } catch (err) 
+{
+console.log(`Error: ${err}`);
+  }
+
+}
+    </script>
+
+<button type="button" onclick="myFunction()">Click Meddd!</button>
+
+</body>
+
+</html>
