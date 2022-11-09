@@ -104,21 +104,31 @@
             border-left: 1.1em solid #ffffff;
             transform: translateZ(0);
             animation: spinner-spin 1.1s infinite linear;
-        }
+        }      
+
         
-        .testDiv {
-            z-index: 9;
-            border: 5px outset red;
-            background-color: lightblue;
-            position: relative;
+        .OverCanvasDiv {
+          position: absolute;
+          bottom: 0px;
+          right: 0px;  
+          width: 100%;
+          height: 100%;
+        }
+
+        .warningVerticalPanelDiv {
+            z-index: 10;
+            background-color: white;
+            position: absolute;
             width: 100%;
             height: 100%;
         }
         
-        .testButton {
-            position: fixed;
-            width: 200px;
-            height: 200px;
+        .fullscreenButton {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            right:0px;
+            bottom: 0px;
         }
 
         @keyframes spinner-spin {
@@ -132,13 +142,24 @@
         }
     </style>
 </head>
-
 <body class="dark">
+
+   
+
+
+
     <div id="unity-container" class="unity-desktop">
+       
         <canvas id="unity-canvas"></canvas>
 
-        <div  class="testDiv" > 
-            <button  class="testButton" type="button" onclick="FullScreen(true)">FULLSCREEN</button>
+        <div  class="OverCanvasDiv" > 
+            <button  class="fullscreenButton" type="button" onclick="FullScreen()">FULLSCREEN</button>
+            
+            <div  class="warningVerticalPanelDiv" id="WarningVerticalPanel" > 
+                 <p>
+                 Esta experiencia est� dise�ada para acceder desde dispositivos m�viles. Por favor, vuelve a cargar la direcci�n web desde uno de estos dispositivos.
+                 </p>
+             </div>
         </div>
 
     </div>
@@ -151,7 +172,9 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="https://libs.zappar.com/zappar-cv/0.3.12/zappar-cv.js"></script>
+
+
+     <script type="text/javascript" src="https://libs.zappar.com/zappar-cv/0.3.12/zappar-cv.js"></script>
     <script>
         var db = indexedDB.open("dummy_indexdb", 1); // iOS 14.6 fix; the call to open indexdb hangs forever otherwise
 
@@ -173,6 +196,7 @@
         const progressBarEmpty = document.querySelector("#unity-progress-bar-empty");
         const progressBarFull = document.querySelector("#unity-progress-bar-full");
         const spinner = document.querySelector('.spinner');
+        const verticalPanel = document.querySelector('#WarningVerticalPanel');
 
         if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
             container.className = "unity-mobile";
@@ -213,18 +237,12 @@
             });
         }
 
-    </script> 
-    <script>    
-    //Custom script:
-
-    window.addEventListener("orientationchange", OnOrientationChange);
-
     function ShowVerticalWarningPanel() {  
-
+        verticalPanel.style.display = "block";
     }
 
-    function HideVerticalWarningPanel() {  
-
+    function HideVerticalWarningPanel() {          
+        verticalPanel.style.display = "none";
     }
 
     function OnOrientationChange() {  
@@ -232,22 +250,27 @@
      switch (screen.orientation.type) 
          {
               case "landscape-primary":
-                console.log("That looks good.");
+                HideVerticalWarningPanel();
+                console.log("landscape-primary");
                 break;
               case "landscape-secondary":
-                console.log("Mmmh� the screen is upside down!");
+                HideVerticalWarningPanel();
+                console.log("landscape-secondary");
                 break;
-              case "portrait-secondary":
+              case "portrait-secondary":  
               case "portrait-primary":
-                console.log("Mmmh� you should rotate your device to landscape");
+                ShowVerticalWarningPanel();
+                console.log("portrait");
                 break;
               default:
                 console.log("The orientation API isn't supported in this browser :(");
          }
     }
-   
-    function FullScreen(flag) {  
-        if(flag)
+
+    var isFullscreen = false;
+    function FullScreen() {  
+        isFullscreen = !isFullscreen;
+        if(isFullscreen)
         {
             container.requestFullscreen({ navigationUI: "show" })
             .then(function() {
@@ -270,9 +293,14 @@
                 });
         }
     }
+    
+
+    window.addEventListener("orientationchange", OnOrientationChange);
 
     </script>
-    <noscript>Sorry, your browser does not support JavaScript!</noscript>
+ <noscript>Sorry, your browser does not support JavaScript!</noscript>
+
+
 </body>
 
 </html>
