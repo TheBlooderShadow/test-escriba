@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>image-tracking-3d-animation</title>
+    <title>this is product name</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <style>
         html {
@@ -40,7 +40,7 @@
         #unity-canvas {
             width: 100%;
             height: 100%;
-
+            position: absolute;
             background: #231F20;
         }
 
@@ -105,6 +105,21 @@
             transform: translateZ(0);
             animation: spinner-spin 1.1s infinite linear;
         }
+        
+        .testDiv {
+            z-index: 9;
+            border: 5px outset red;
+            background-color: lightblue;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .testButton {
+            position: fixed;
+            width: 200px;
+            height: 200px;
+        }
 
         @keyframes spinner-spin {
             0% {
@@ -121,6 +136,11 @@
 <body class="dark">
     <div id="unity-container" class="unity-desktop">
         <canvas id="unity-canvas"></canvas>
+
+        <div  class="testDiv" > 
+            <button  class="testButton" type="button" onclick="FullScreen(true)">FULLSCREEN</button>
+        </div>
+
     </div>
     <div id="loading-cover" style="display:none;">
         <div id="unity-loading-bar">
@@ -130,6 +150,7 @@
             <div class="spinner"></div>
         </div>
     </div>
+
     <script type="text/javascript" src="https://libs.zappar.com/zappar-cv/0.3.12/zappar-cv.js"></script>
     <script>
         var db = indexedDB.open("dummy_indexdb", 1); // iOS 14.6 fix; the call to open indexdb hangs forever otherwise
@@ -140,9 +161,9 @@
             dataUrl: buildUrl + "/htdocs.data.unityweb",
             frameworkUrl: buildUrl + "/htdocs.framework.js.unityweb",
             codeUrl: buildUrl + "/htdocs.wasm.unityweb",
-        streamingAssetsUrl: "StreamingAssets",
-            companyName: "DefaultCompany",
-            productName: "image-tracking-3d-animation",
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "This is company name",
+            productName: "this is product name",
             productVersion: "0.1",
         };
 
@@ -192,7 +213,66 @@
             });
         }
 
+    </script> 
+    <script>    
+    //Custom script:
+
+    window.addEventListener("orientationchange", OnOrientationChange);
+
+    function ShowVerticalWarningPanel() {  
+
+    }
+
+    function HideVerticalWarningPanel() {  
+
+    }
+
+    function OnOrientationChange() {  
+
+     switch (screen.orientation.type) 
+         {
+              case "landscape-primary":
+                console.log("That looks good.");
+                break;
+              case "landscape-secondary":
+                console.log("Mmmh� the screen is upside down!");
+                break;
+              case "portrait-secondary":
+              case "portrait-primary":
+                console.log("Mmmh� you should rotate your device to landscape");
+                break;
+              default:
+                console.log("The orientation API isn't supported in this browser :(");
+         }
+    }
+   
+    function FullScreen(flag) {  
+        if(flag)
+        {
+            container.requestFullscreen({ navigationUI: "show" })
+            .then(function() {
+	            // element has entered fullscreen mode successfully
+            })
+            .catch(function(error) {
+	            console.log("FullScreen error");
+	            console.log(error.message);
+            });
+        }
+        else
+        {
+            document.exitFullscreen()
+                .then(function() {
+	                // element has exited fullscreen mode
+                })
+                .catch(function(error) {
+	                console.log("FullScreen can not be exit");
+	                console.log(error.message);
+                });
+        }
+    }
+
     </script>
+    <noscript>Sorry, your browser does not support JavaScript!</noscript>
 </body>
 
 </html>
