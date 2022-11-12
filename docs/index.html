@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="es">
 
 <head>
     <meta charset="utf-8">
@@ -35,6 +35,21 @@
             margin: 0;
         }
 
+        input.WebGLInput {
+            width: 100%;
+            height: 30px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            opacity: 1 !important;
+            background: #a9233c;
+            outline: 0;
+            border: none;
+            padding: 31px !important;
+            font-size: 16px;
+            color: #fff !important;
+        }
+
         canvas {
             display: block;
         }
@@ -56,7 +71,8 @@
             width: 100%;
             height: 100%;
             position: absolute;
-            
+            display: none !important;
+            user-select: none;
         }         
         .warningContent {
               position: absolute;
@@ -73,6 +89,7 @@
             height: 50px;
             right:15px;
             top: 15px;
+            user-select: none;
         }
         
         .logosPanelDiv {
@@ -80,6 +97,7 @@
           background-color: white;
           width: 100%;
           height:100%;
+          user-select: none;
         }  
         
         #logo{ 
@@ -88,12 +106,11 @@
           left: 50%;
           transform: translate(-50%, -50%);
         }  
-
+             
         #RecoverFullscreenButton
         {
             display: none;
         }
-
 
         .spinner,
         .spinner:after {
@@ -125,6 +142,7 @@
 
             100% {
                 transform: rotate(360deg);
+            }
         }
     </style>
 </head>
@@ -139,8 +157,8 @@
 
             <! Full Screen Button > 
              <img class="fullscreenButton" id="fullscreenButton" onclick="FullScreen()" src="fullscreen-maximize.png" width="38" height="38">
-             <img id="RecoverFullscreenButton" onclick="onClickWorking()" src="fullscreen-maximize.png" width="1" height="1">
-                       
+             <img id="RecoverFullscreenButton" onclick="RecoverFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
+                              
             <! Orientation Warning > 
 
             <div class="warningPanel" id="WarningVerticalPanel"> 
@@ -178,11 +196,11 @@
         var db = indexedDB.open("dummy_indexdb", 1); // iOS 14.6 fix; the call to open indexdb hangs forever otherwise
 
         const buildUrl = "Build";
-        const loaderUrl = buildUrl + "/htdocs.loader.js";
+        const loaderUrl = buildUrl + "/docs.loader.js";
         const config = {
-            dataUrl: buildUrl + "/htdocs.data.unityweb",
-            frameworkUrl: buildUrl + "/htdocs.framework.js.unityweb",
-            codeUrl: buildUrl + "/htdocs.wasm.unityweb",
+            dataUrl: buildUrl + "/docs.data.unityweb",
+            frameworkUrl: buildUrl + "/docs.framework.js.unityweb",
+            codeUrl: buildUrl + "/docs.wasm.unityweb",
             streamingAssetsUrl: "StreamingAssets",
             companyName: "DefaultCompany",
             productName: "image-tracking-3d-animation",
@@ -196,7 +214,6 @@
         const pcWarningPanel = document.querySelector('#pcWarningPanel');
         const logosPanel = document.querySelector('#logosPanel');
         const fullscreenButton = document.querySelector('#fullscreenButton');
-        const recoverFullscreenButton = document.querySelector('#RecoverFullscreenButton');
 
         if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
             container.className = "unity-mobile";
@@ -232,7 +249,7 @@
                 
         const script = document.createElement("script");
         script.src = loaderUrl;
-        script.onload = () => { CreateUnityLoader();   }; // thats was disabled!!!!!
+        // script.onload = () => { CreateUnityLoader();   }; // thats was disabled!!!!!
         document.body.appendChild(script);
 
     function SetDisplayPCWarningPanel(flag) {  
@@ -300,52 +317,23 @@
                 });
         }
     }    
-    
-    function RecoverFullscreen()
-    {
-        if(isFullscreen)
-        {
-            fullscreenButton.src = "fullscreen-minimize.png";
 
-            container.requestFullscreen({ navigationUI: "show" })
-            .then(function() {
-	            // element has entered fullscreen mode successfully
-            })
-            .catch(function(error) {
-	            console.log("FullScreen error");
-	            console.log(error.message);
-            });
-        }
-        else
-        {
-            fullscreenButton.src = "fullscreen-maximize.png";
-            document.exitFullscreen()
-                .then(function() {
-	                // element has exited fullscreen mode
-                })
-                .catch(function(error) {
-	                console.log("FullScreen can not be exit");
-	                console.log(error.message);
-                });
-        }
-    }
-
-    const onClickWorking = () => 
+    const RecoverFullscreen = () => 
     {
-        console.log(document.fullscreenElement);
+        if (navigator.userAgent.indexOf("Safari") > -1) {
+            return;
+        }
         if (isFullscreen)
         {
-            console.log("try fullscreen");
             container.requestFullscreen({ navigationUI: "show" })
              .then(function() {
-	            console.log("fulscreen suscessfull");
             })
             .catch(err => {
-            alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+            console.log(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
             });
         }
-
     }
+
 
     function MobileAndTabletCheck() {
         var check = false;
