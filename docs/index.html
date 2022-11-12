@@ -345,8 +345,16 @@
             else
             {
                 fullscreenButton.src = "fullscreen-maximize.png";
-            }
+             
+            } 
+            //Delay 1 sec
+            setTimeout(SendMessageOnFullscreenChange(), 1000);
         });
+
+    function SendMessageOnFullscreenChange()
+    {
+        SendMessage('Canvas', 'OnFullscreenChange');
+    }
 
     function MobileAndTabletCheck() {
         var check = false;
