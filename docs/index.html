@@ -288,16 +288,16 @@
          }
     }
 
-    var isFullscreen = false;
     function FullScreen() {  
-        isFullscreen = !isFullscreen;
-        if(isFullscreen)
+
+        if(!document.fullscreen)
         {
-            fullscreenButton.src = "fullscreen-minimize.png";
+            //fullscreenButton.src = "fullscreen-minimize.png";
 
             container.requestFullscreen({ navigationUI: "show" })
             .then(function() {
 	            // element has entered fullscreen mode successfully
+                //  console.log(document.fullscreen);
             })
             .catch(function(error) {
 	            console.log("FullScreen error");
@@ -306,10 +306,11 @@
         }
         else
         {
-            fullscreenButton.src = "fullscreen-maximize.png";
+            //fullscreenButton.src = "fullscreen-maximize.png";
             document.exitFullscreen()
                 .then(function() {
 	                // element has exited fullscreen mode
+                    //console.log(document.fullscreen);
                 })
                 .catch(function(error) {
 	                console.log("FullScreen can not be exit");
@@ -317,6 +318,7 @@
                 });
         }
     }    
+    
 
     const RecoverFullscreen = () => 
     {
@@ -333,7 +335,18 @@
             });
         }
     }
-
+    
+    addEventListener('fullscreenchange', (event) => 
+        {   
+            if(document.fullscreen)
+            {
+                fullscreenButton.src = "fullscreen-minimize.png";
+            }
+            else
+            {
+                fullscreenButton.src = "fullscreen-maximize.png";
+            }
+        });
 
     function MobileAndTabletCheck() {
         var check = false;
