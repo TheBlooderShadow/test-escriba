@@ -236,12 +236,14 @@
             setTimeout(WaitForZCVLoad, 500);
         }        
 
+	const unityInstance;
       
         function CreateUnityLoader() {
           createUnityInstance(canvas, config, (progress) => {
           }).then((unity) => {              
             logosPanel.style.display = "none";
             //WaitForZCVLoad(); //zappar
+		unityInstance = unity;
           }).catch((message) => {
             alert(message);
           });
@@ -354,7 +356,8 @@
     function SendMessageOnFullscreenChange()
     {
         console.log("Sending OnFullscreenChange to unity");
-        SendMessage('Canvas', 'OnFullscreenChange');
+	if(unityInstance != null)
+        unityInstance.SendMessage('Canvas', 'OnFullscreenChange');
     }
 
     function MobileAndTabletCheck() {
