@@ -347,7 +347,7 @@
              
             } 
             //Delay 1 sec
-            setTimeout(SendMessageOnFullscreenChange, 5000);
+            setTimeout(SendMessageOnFullscreenChange, 2000);
         });
 
     function SendMessageOnFullscreenChange()
@@ -379,33 +379,9 @@
         SetDisplayPCWarningPanel(true);
     }
 
-
-      var fileInput = document.createElement('input');
-      fileInput.setAttribute('type', 'file');
-      fileInput.setAttribute('accept', 'image/png, image/jpeg');
-      fileInput.setAttribute('id', 'ImageUploaderInput');
-      fileInput.style.position= 'absolute';
-      fileInput.style.top= '25%';
-      fileInput.style.left= '25%';
-      fileInput.onclick = function (event) {
-        this.value = null;//IOS enter here        
-      }
-      fileInput.onchange = function (event) {
-
-        var file = event.target.files[0];
-
-          window.alert("Input Uploader FileSelected");
-
-        if (file) {
-            if (/^image\//i.test(file.type))            {
-                window.alert("OK");
-            } else {
-                window.alert("ERROR");
-            }
-        }
-        else  window.alert("Input Uploader No file selected");
-     }
-     document.body.appendChild(fileInput);
+    if (navigator.userAgent.indexOf("Safari") > -1) {
+        fullscreenButton.style.display = "none";
+    }
 
     </script>
  <noscript>Sorry, your browser does not support JavaScript!</noscript>
