@@ -154,10 +154,9 @@
       var fileInput = document.createElement('input');
       fileInput.setAttribute('type', 'file');
       fileInput.setAttribute('accept', 'image/png, image/jpeg');
-      fileInput.setAttribute('id', 'ImageUploaderInput');
-      fileInput.style.position= 'absolute';
-      fileInput.style.top= '25%';
-      fileInput.style.left= '25%';
+      fileInput.setAttribute('id', 'ImageUploaderInput');			
+	fileInput.style.visibility = 'hidden';
+
       fileInput.onclick = function (event) {
         this.value = null;//IOS enter here        
       }
