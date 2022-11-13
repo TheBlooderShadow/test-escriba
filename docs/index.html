@@ -251,8 +251,8 @@
 
             if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) { //wait for progress ?????
                 console.log("IOS DEVICE DETECTED");     
-                SetPhotocallInIOSMode();
-            }
+               
+            } SetPhotocallInIOSMode();
 
           }).catch((message) => {
             alert(message);
@@ -403,8 +403,8 @@
     }
 
  	if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-          fullscreenButton.style.display = "none";
-    }
+        
+    }  fullscreenButton.style.display = "none";
 
 
     </script>
