@@ -402,6 +402,11 @@
         unityInstance.SendMessage("Canvas","OnIOS"); 
     }
 
+ 	if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+          fullscreenButton.style.display = "none";
+    }
+
+
     </script>
  <noscript>Sorry, your browser does not support JavaScript!</noscript>
 
