@@ -247,7 +247,13 @@
           }).then((unity) => {              
             logosPanel.style.display = "none";
             unityInstance = unity;
-            //WaitForZCVLoad(); //zappar
+            
+
+            if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) { //wait for progress ?????
+                console.log("IOS DEVICE DETECTED");     
+                SetPhotocallInIOSMode();
+            }
+
           }).catch((message) => {
             alert(message);
           });
@@ -297,13 +303,9 @@
 
         if(!document.fullscreen)
         {
-            //fullscreenButton.src = "fullscreen-minimize.png";
-
             container.requestFullscreen({ navigationUI: "show" })
             .then(function() {
                 isFullscreen = true;
-	            // element has entered fullscreen mode successfully
-                //  console.log(document.fullscreen);
             })
             .catch(function(error) {
 	            console.log("FullScreen error");
@@ -312,13 +314,10 @@
         }
         else
         {
-            //fullscreenButton.src = "fullscreen-maximize.png";
             document.exitFullscreen()
                 .then(function() {
                     
                     isFullscreen = false;
-	                // element has exited fullscreen mode
-                    //console.log(document.fullscreen);
                 })
                 .catch(function(error) {
 	                console.log("FullScreen can not be exit");
@@ -369,7 +368,6 @@
 
     function SendMessageOnFullscreenChange()
     {
-        console.log("Sending OnFullscreenChange to unity");
         if(unityInstance != null)
         unityInstance.SendMessage('Canvas', 'OnFullscreenChange');
     }
@@ -395,7 +393,11 @@
         //Show PC warning
         SetDisplayPCWarningPanel(true);
     }
-     
+        
+    function SetPhotocallInIOSMode()
+    {
+        unityInstance.SendMessage("Canvas","OnIOS"); 
+    }
 
     </script>
  <noscript>Sorry, your browser does not support JavaScript!</noscript>
