@@ -82,7 +82,7 @@
               text-align: center;
         } 
 
-        #fullscreenButton {
+        .fullscreenButton {
             display:block;
             position: absolute;
             width: 50px;
@@ -161,7 +161,7 @@
 
 
             <! Full Screen Button > 
-             <img id="fullscreenButton" onclick="FullScreen()" src="fullscreen-maximize.png" width="38" height="38">
+             <img class="fullscreenButton" id="fullscreenButton" onclick="FullScreen()" src="fullscreen-maximize.png" width="38" height="38">
              <img id="RecoverFullscreenButton" onclick="RecoverFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
              <img id="ForceFullscreenButton" onclick="ForceFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
                               
@@ -202,21 +202,15 @@
         var db = indexedDB.open("dummy_indexdb", 1); // iOS 14.6 fix; the call to open indexdb hangs forever otherwise
 
         const buildUrl = "Build";
-        const loaderUrl = buildUrl + "/{{{ LOADER_FILENAME }}}";
+        const loaderUrl = buildUrl + "/docs.loader.js";
         const config = {
-            dataUrl: buildUrl + "/{{{ DATA_FILENAME }}}",
-            frameworkUrl: buildUrl + "/{{{ FRAMEWORK_FILENAME }}}",
-            codeUrl: buildUrl + "/{{{ CODE_FILENAME }}}",
-            #if MEMORY_FILENAME
-            memoryUrl: buildUrl + "/{{{ MEMORY_FILENAME }}}",
-            #endif
-            #if SYMBOLS_FILENAME
-            symbolsUrl: buildUrl + "/{{{ SYMBOLS_FILENAME }}}",
-            #endif
+            dataUrl: buildUrl + "/docs.data.unityweb",
+            frameworkUrl: buildUrl + "/docs.framework.js.unityweb",
+            codeUrl: buildUrl + "/docs.wasm.unityweb",
             streamingAssetsUrl: "StreamingAssets",
-            companyName: "{{{ COMPANY_NAME }}}",
-            productName: "{{{ PRODUCT_NAME }}}",
-            productVersion: "{{{ PRODUCT_VERSION }}}",
+            companyName: "DefaultCompany",
+            productName: "image-tracking-3d-animation",
+            productVersion: "0.1",
         };
 
         const container = document.querySelector("#unity-container");
@@ -236,7 +230,7 @@
 
         window.zappar = ZCV.initialize();
 
-        ZAPPAR_PERMISSIONS_IMPLEMENTATION
+        window.zappar.permission_request_ui_promise().then(WaitForZCVLoad);
 
         function WaitForZCVLoad() {
             if (zappar.loaded()) {
