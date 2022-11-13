@@ -251,8 +251,8 @@
 
             if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) { //wait for progress ?????
                 console.log("IOS DEVICE DETECTED");     
-               
-            } SetPhotocallInIOSMode();
+                SetPhotocallInIOSMode();
+            }
 
           }).catch((message) => {
             alert(message);
@@ -342,9 +342,10 @@
 
     const ForceFullscreen = () => 
     {
-	 if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
             return;
         }
+
         container.requestFullscreen({ navigationUI: "show" })
             .then(function() {
                 isFullscreen = true;
@@ -402,10 +403,9 @@
         unityInstance.SendMessage("Canvas","OnIOS"); 
     }
 
- 	if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-        
-    }  fullscreenButton.style.display = "none";
-
+    if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+          fullscreenButton.style.display = "none";
+    }
 
     </script>
  <noscript>Sorry, your browser does not support JavaScript!</noscript>
