@@ -342,6 +342,9 @@
 
     const ForceFullscreen = () => 
     {
+	 if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+            return;
+        }
         container.requestFullscreen({ navigationUI: "show" })
             .then(function() {
                 isFullscreen = true;
