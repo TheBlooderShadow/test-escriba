@@ -279,12 +279,27 @@
         verticalPanel.style.display = "none";
     }
 
+    function getScreenOrientationIOS()
+    {
+      if (window.innerHeight > window.innerWidth)
+        return "portrait";
+      else
+        return "landscape";
+    }
+    
     function OnOrientationChange() {  
     
-        console.log(screen.orientation.type);
+        var orientation = ""; 
 
-     switch (screen.orientation.type) 
-         {
+        if (/iPhone|iPad|iPod/i.test(navigator.userAgent))
+        { 
+           orientation = getScreenOrientationIOS(); 
+        }
+        else orientation = screen.orientation.type; 
+
+        switch (orientation) 
+        {
+              case "landscape":
               case "landscape-primary":
               case "landscape-secondary":
                 HideVerticalWarningPanel();
@@ -292,12 +307,13 @@
 
               case "portrait-secondary":  
               case "portrait-primary":
+              case "portrait":
                 ShowVerticalWarningPanel();
                 console.log("portrait");
                 break;
               default:
                 console.log("The orientation API isn't supported in this browser :(");
-         }
+        }
     }
 
     function FullScreen() {  
