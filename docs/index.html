@@ -153,9 +153,47 @@
 </head>
 <body class="dark">
 
-    <div  background-color: blue; >
-   
-<input type="file" accept="image/png, image/jpeg" id="ImageUploaderInputIOS1" idmodel="0" style="opacity: 0.2; position: absolute; width: 87.6609px; height: 119.42px; background-color: red; top: 96.5953px; left: 494.4px; display: block;">
+    <div id="unity-container" class="unity-desktop">
+       
+        <canvas id="unity-canvas"></canvas>
+       
+        <! Over Canvas:> 
+
+
+            <! Full Screen Button > 
+             <img class="fullscreenButton" id="fullscreenButton" onclick="FullScreen()" src="fullscreen-maximize.png" width="38" height="38">
+             <img id="RecoverFullscreenButton" onclick="RecoverFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
+             <img id="ForceFullscreenButton" onclick="ForceFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
+                              
+            <! Orientation Warning > 
+
+            <div class="warningPanel" id="WarningVerticalPanel"> 
+                    <div class="warningContent" >
+                    <img class="warningIcon" src="Image-HorizontalInstructions.png" width="158" height="92">
+                    <p>
+                    Esta experiencia está diseñada para ser vista en formato horizontal. Por favor, gira el móvil para poder disfrutar de ella.
+                    </p>
+                    </div>
+            </div>
+            
+            <! PC Warning> 
+
+            <div class="warningPanel" id="pcWarningPanel" > 
+                    <div class="warningContent" >
+                    <img  class="warningIcon"  src="Image-HorizontalInstructions.png" width="158" height="92">
+                    <p>
+                    Esta experiencia está diseñada para acceder desde dispositivos móviles. Por favor, vuelve a cargar la dirección web desde uno de estos dispositivos.
+                    </p>
+                    </div>
+            </div>
+
+            <! LOADING > 
+
+            <div class="logosPanelDiv" id="logosPanel"> 
+                    <img id="logo" src="PantallaLogos.png" width="844" height="390">
+                    <div class="spinner"></div>
+            </div>
+
 
     </div>
 
