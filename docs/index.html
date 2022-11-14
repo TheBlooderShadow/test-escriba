@@ -84,8 +84,6 @@
       const verticalPanel = document.querySelector('#WarningVerticalPanel');
       const pcWarningPanel = document.querySelector('#pcWarningPanel');
       const logosPanel = document.querySelector('#logosPanel');
-      const fullscreenButton = document.querySelector('#fullscreenButton');
-
       
 
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
@@ -304,11 +302,7 @@
         var jsonResult = JSON.stringify(obj);
         unityInstance.SendMessage("Canvas","OnIOS",jsonResult); 
     }
-          
-    if (/iPhone|iPad|iPod/i.test(navigator.userAgent))
-    {  
-        fullscreenButton.style.display = "none";
-    }
+
     </script>
   </body>
 </html>
