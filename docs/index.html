@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Delaviuda by Escribà, crea tu felicitación de navidad única.</title>
-    <meta name="description" content="{{{ DESCRIPTION }}}">
+    <meta name="description" content="">
     <link rel="shortcut icon" href="favicon.png">
     <link rel="stylesheet" href="TemplateData/style.css">
   </head>
@@ -62,21 +62,15 @@
     </div>
     <script>
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/{{{ LOADER_FILENAME }}}";
+      var loaderUrl = buildUrl + "/docs.loader.js";
       var config = {
-        dataUrl: buildUrl + "/{{{ DATA_FILENAME }}}",
-        frameworkUrl: buildUrl + "/{{{ FRAMEWORK_FILENAME }}}",
-        codeUrl: buildUrl + "/{{{ CODE_FILENAME }}}",
-#if MEMORY_FILENAME
-        memoryUrl: buildUrl + "/{{{ MEMORY_FILENAME }}}",
-#endif
-#if SYMBOLS_FILENAME
-        symbolsUrl: buildUrl + "/{{{ SYMBOLS_FILENAME }}}",
-#endif
+        dataUrl: buildUrl + "/docs.data.unityweb",
+        frameworkUrl: buildUrl + "/docs.framework.js.unityweb",
+        codeUrl: buildUrl + "/docs.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
-        companyName: "{{{ COMPANY_NAME }}}",
-        productName: "{{{ PRODUCT_NAME }}}",
-        productVersion: "{{{ PRODUCT_VERSION }}}",
+        companyName: "DefaultCompany",
+        productName: "image-tracking-3d-animation",
+        productVersion: "0.1",
       };
 
       var container = document.querySelector("#unity-container");
@@ -92,7 +86,7 @@
       const logosPanel = document.querySelector('#logosPanel');
   
 
-      {{{ WEBXR_POLYFILL_CONFIG }}}
+      
 
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
             container.className = "unity-mobile";
@@ -101,9 +95,6 @@
             config.devicePixelRatio = window.devicePixelRatio;
         }
 
-#if BACKGROUND_FILENAME
-      canvas.style.background = "url('" + buildUrl + "/{{{ BACKGROUND_FILENAME.replace(/'/g, '%27') }}}') center / cover";
-#endif
       // loadingBar.style.display = "block";
 
       var script = document.createElement("script");
