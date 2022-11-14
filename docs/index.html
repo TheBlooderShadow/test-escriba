@@ -279,33 +279,38 @@
         verticalPanel.style.display = "none";
     }
 
-     function getScreenOrientationIOS()
+    
+    function getScreenOrientationIOS()
     {
       if (window.innerHeight > window.innerWidth)
         return "portrait";
       else
         return "landscape";
     }
-    
+
+
     function OnOrientationChange() {  
     
-        var orientation = ""; 
-
+        var orientation = "";      
         if (/iPhone|iPad|iPod/i.test(navigator.userAgent))
-        { 
-           orientation = getScreenOrientationIOS(); 
-        }
-        else orientation = screen.orientation.type; 
-        
-        console.log(orientation);
-        switch (orientation) 
         {
-              case "landscape":
+            orientation = getScreenOrientationIOS();
+        }
+        else
+        {
+            orientation = screen.orientation.type;
+        }
+
+        console.log(Orientation);
+
+        switch (Orientation) 
+         {
               case "landscape-primary":
               case "landscape-secondary":
-                //Hide Warning verticalPanel
+              case "landscape":
                 HideVerticalWarningPanel();
 
+                
                 //Update iOS Canvas Size
                 if (/iPhone|iPad|iPod/i.test(navigator.userAgent) && unityInstance != null)
                 { 
@@ -317,13 +322,12 @@
               case "portrait-primary":
               case "portrait":
                 ShowVerticalWarningPanel();
+               
                 break;
               default:
                 console.log("The orientation API isn't supported in this browser :(");
-        }
+         }
     }
-
-   
 
     function FullScreen() {  
 
@@ -423,7 +427,7 @@
         //Show PC warning
         SetDisplayPCWarningPanel(true);
     }
-        
+      
     function SetPhotocallInIOSMode()
     {                                      
         var w = window.innerWidth;
