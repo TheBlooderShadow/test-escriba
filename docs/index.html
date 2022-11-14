@@ -249,8 +249,8 @@
             unityInstance = unity;
                         
             if (/iPhone|iPad|iPod/i.test(navigator.userAgent))
-            {  
-                SetPhotocallInIOSMode();
+            { 
+                SetPhotocallInIOSMode(); 
             }
         
            
@@ -400,17 +400,18 @@
     }
         
     function SetPhotocallInIOSMode()
-    {
-        unityInstance.SendMessage("Canvas","OnIOS"); 
+    {                                      
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+        var obj = { W: w, H: h};
+        var jsonResult = JSON.stringify(obj);
+        unityInstance.SendMessage("Canvas","OnIOS",jsonResult); 
     }
           
     if (/iPhone|iPad|iPod/i.test(navigator.userAgent))
     {  
         fullscreenButton.style.display = "none";
-    }
-        
-   
-   
+    }   
  
 
     </script>
