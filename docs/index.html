@@ -246,17 +246,13 @@
           createUnityInstance(canvas, config, (progress) => {
           }).then((unity) => {              
             logosPanel.style.display = "none";
-            unityInstance = unity;
-                        
+            unityInstance = unity;                        
             if (/iPhone|iPad|iPod/i.test(navigator.userAgent))
             { 
                 SetPhotocallInIOSMode(); 
             }
-        
-           
-
           }).catch((message) => {
-            alert(message);
+                alert(message);
           });
         }
                 
@@ -279,15 +275,13 @@
         verticalPanel.style.display = "none";
     }
 
-    
     function getScreenOrientationIOS()
     {
-      if (window.innerHeight > window.innerWidth)
-        return "portrait";
-      else
-        return "landscape";
+        if (window.innerHeight > window.innerWidth)
+            return "portrait";
+        else
+            return "landscape";
     }
-
 
     function OnOrientationChange() {  
     
@@ -301,16 +295,12 @@
             orientation = screen.orientation.type;
         }
 
-        console.log(orientation);
-
-        switch (orientation) 
+            switch (orientation) 
          {
               case "landscape-primary":
               case "landscape-secondary":
-              case "landscape":
-                HideVerticalWarningPanel();
+                HideVerticalWarningPanel();         
 
-                
                 //Update iOS Canvas Size
                 if (/iPhone|iPad|iPod/i.test(navigator.userAgent) && unityInstance != null)
                 { 
@@ -320,9 +310,7 @@
 
               case "portrait-secondary":  
               case "portrait-primary":
-              case "portrait":
                 ShowVerticalWarningPanel();
-               
                 break;
               default:
                 console.log("The orientation API isn't supported in this browser :(");
@@ -427,7 +415,7 @@
         //Show PC warning
         SetDisplayPCWarningPanel(true);
     }
-      
+        
     function SetPhotocallInIOSMode()
     {                                      
         var w = window.innerWidth;
