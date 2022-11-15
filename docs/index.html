@@ -17,9 +17,6 @@
 
 
         <! Full Screen Button > 
-        <!--
-          <img class="fullscreenButton" id="fullscreenButton" onclick="FullScreen()" src="fullscreen-maximize.png" width="38" height="38">
-        -->
         <img id="RecoverFullscreenButton" onclick="RecoverFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
         <img id="ForceFullscreenButton" onclick="ForceFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
         <img id="ForceMinimizeFullscreenButton" onclick="ForceMinimizeFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
@@ -86,7 +83,21 @@
       const logosPanel = document.querySelector('#logosPanel');
   
 
-      
+      function CheckIOS()
+      {
+            console.log(navigator.userAgent);
+            console.log(/iPhone|iPad|iPod/i.test(navigator.userAgent));
+            console.log(navigator.platform);
+            console.log/iPad|iPhone|iPod/.test(navigator.platform)();
+
+
+            //no iOS
+            console.log("test no iOS:");
+            console.log(navigator.maxTouchPoints);
+            console.log( /MacIntel/.test(navigator.platform));
+      }
+
+      CheckIOS();
 
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
             container.className = "unity-mobile";
