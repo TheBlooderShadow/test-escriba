@@ -19,8 +19,8 @@
         <! Full Screen Button > 
         <!--
           <img class="fullscreenButton" id="fullscreenButton" onclick="FullScreen()" src="fullscreen-maximize.png" width="38" height="38">
-          <img id="RecoverFullscreenButton" onclick="RecoverFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
         -->
+        <img id="RecoverFullscreenButton" onclick="RecoverFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
         <img id="ForceFullscreenButton" onclick="ForceFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
         <img id="ForceMinimizeFullscreenButton" onclick="ForceMinimizeFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
                           
@@ -288,7 +288,7 @@
         var h = window.innerHeight;
         var obj = { W: w, H: h};
         var jsonResult = JSON.stringify(obj);
-        unityInstance.SendMessage("Canvas","OnIOS",jsonResult); 
+        unityInstance.SendMessage("Canvas","OnIOSReciver",jsonResult); 
     }        
 
     </script>
