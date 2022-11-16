@@ -256,11 +256,17 @@
           createUnityInstance(canvas, config, (progress) => {
           }).then((unity) => {              
             logosPanel.style.display = "none";
-            unityInstance = unity;                        
+            unityInstance = unity;  
+            
+            //iOS Mode
             if (CheckIOSDevice())
             { 
                 SetPhotocallInIOSMode(); 
             }
+
+            //Debug
+            unityInstance.SendMessage("Canvas","DebugMode"); 
+            
           }).catch((message) => {
                 alert(message);
           });
@@ -412,10 +418,10 @@
     }
     
     addEventListener('fullscreenchange', (event) => 
-        {              
-            //Delay 1 sec
-            setTimeout(SendMessageOnFullscreenChange, 2500);
-        });
+    {              
+        //Delay 1 sec
+        setTimeout(SendMessageOnFullscreenChange, 2500);
+    });
 
     function SendMessageOnFullscreenChange()
     {
