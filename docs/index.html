@@ -37,7 +37,7 @@
 
         input.WebGLInput {
             width: 100%;
-            height: 30px;
+            height: 100%;
             position: absolute;
             bottom: 0;
             left: 0;
@@ -292,10 +292,22 @@
     }
 
     function ShowVerticalWarningPanel() {  
+         
+        if(unityInstance!=null)
+        {
+            unityInstance.SendMessage("Canvas","OnPortrail"); 
+        }
+
         verticalPanel.style.display = "block";
     }
 
-    function HideVerticalWarningPanel() {          
+    function HideVerticalWarningPanel() {    
+         
+        if(unityInstance!=null)
+        {
+            unityInstance.SendMessage("Canvas","OnLandscape"); 
+        }
+
         verticalPanel.style.display = "none";
     }
 
@@ -307,9 +319,9 @@
             return "landscape";
     }
 
+    var orientation = "";      
     function OnOrientationChange() {  
     
-        var orientation = "";      
         if (CheckIOSDevice())
         {
             orientation = getScreenOrientationIOS();
@@ -418,10 +430,18 @@
     }
     
     addEventListener('fullscreenchange', (event) => 
-    {              
-        //Delay 1 sec
-        setTimeout(SendMessageOnFullscreenChange, 2500);
-    });
+        {   
+            switch (orientation) 
+            {
+              case "landscape-primary":
+              case "landscape-secondary":
+              case "landscape":
+                //Delay 1 sec
+                setTimeout(SendMessageOnFullscreenChange, 100);
+              break;
+              default:break;
+            }
+        });
 
     function SendMessageOnFullscreenChange()
     {
