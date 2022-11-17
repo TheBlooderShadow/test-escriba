@@ -178,7 +178,7 @@
                               
             <! Orientation Warning > 
 
-            <div class="warningPanel" id="WarningVerticalPanel"  onclick="StopPropagation()"> 
+            <div class="warningPanel" id="WarningVerticalPanel"  onclick="StopPropagation(e)"> 
                     <div class="warningContent" >
                     <img class="warningIcon" src="Image-HorizontalInstructions.png" width="158" height="92">
                     <p>
@@ -189,7 +189,7 @@
             
             <! PC Warning> 
 
-            <div class="warningPanel" id="pcWarningPanel"  onclick="StopPropagation()" > 
+            <div class="warningPanel" id="pcWarningPanel"  onclick="StopPropagation(e)" > 
                     <div class="warningContent">
                     <img  class="warningIcon"  src="Image-HorizontalInstructions.png" width="158" height="92">
                     <p>
@@ -200,7 +200,7 @@
 
             <! LOADING > 
 
-            <div class="logosPanelDiv" id="logosPanel"> 
+            <div class="logosPanelDiv" id="logosPanel"  onclick="StopPropagation(e)"> 
                     <img id="logo" src="PantallaLogos.png" width="844" height="390">
                     <div class="spinner"></div>
             </div>
