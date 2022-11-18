@@ -160,7 +160,7 @@
 
     <div id="unity-container" class="unity-desktop">
        
-        <canvas id="unity-canvas"></canvas>
+        <canvas id="unity-canvas" onclick="FocusDocument()"></canvas>
        
         <! Over Canvas:> 
 
@@ -213,15 +213,21 @@
         var db = indexedDB.open("dummy_indexdb", 1); // iOS 14.6 fix; the call to open indexdb hangs forever otherwise
 
         const buildUrl = "Build";
-        const loaderUrl = buildUrl + "/docs.loader.js";
+        const loaderUrl = buildUrl + "/{{{ LOADER_FILENAME }}}";
         const config = {
-            dataUrl: buildUrl + "/docs.data.unityweb",
-            frameworkUrl: buildUrl + "/docs.framework.js.unityweb",
-            codeUrl: buildUrl + "/docs.wasm.unityweb",
+            dataUrl: buildUrl + "/{{{ DATA_FILENAME }}}",
+            frameworkUrl: buildUrl + "/{{{ FRAMEWORK_FILENAME }}}",
+            codeUrl: buildUrl + "/{{{ CODE_FILENAME }}}",
+            #if MEMORY_FILENAME
+            memoryUrl: buildUrl + "/{{{ MEMORY_FILENAME }}}",
+            #endif
+            #if SYMBOLS_FILENAME
+            symbolsUrl: buildUrl + "/{{{ SYMBOLS_FILENAME }}}",
+            #endif
             streamingAssetsUrl: "StreamingAssets",
-            companyName: "DefaultCompany",
-            productName: "image-tracking-3d-animation",
-            productVersion: "0.1",
+            companyName: "{{{ COMPANY_NAME }}}",
+            productName: "{{{ PRODUCT_NAME }}}",
+            productVersion: "{{{ PRODUCT_VERSION }}}",
         };
 
         const container = document.querySelector("#unity-container");
@@ -240,7 +246,7 @@
 
         window.zappar = ZCV.initialize();
 
-        window.zappar.permission_request_ui_promise().then(WaitForZCVLoad);
+        ZAPPAR_PERMISSIONS_IMPLEMENTATION
 
         function WaitForZCVLoad() {
             if (zappar.loaded()) {
@@ -285,6 +291,12 @@
             return flag;
         }
 
+      function FocusDocument()
+      {
+         container.focus();
+         canvas.focus();
+      }
+      
       function StopPropagation(event)
       {
            event.stopPropagation();
@@ -516,8 +528,6 @@
             }
         });
 
-        window.addEventListener('blur', ()=>{ window.alert("Doc lost focus"); });
-        window.addEventListener('focus', ()=>{ window.alert("Doc focused!");  });
 
     </script>
  <noscript>Sorry, your browser does not support JavaScript!</noscript>
