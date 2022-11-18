@@ -294,12 +294,6 @@
       {          
         if(flag === true)
         { 
-            /*
-            if(unityInstance!=null)
-            {
-                unityInstance.SendMessage("Canvas","OnPortrail"); 
-            }
-            */
             pcWarningPanel.style.display = "block";   
         } 
         else 
@@ -309,22 +303,12 @@
     }
 
     function ShowVerticalWarningPanel() {  
-         /*
-        if(unityInstance!=null)
-        {
-            unityInstance.SendMessage("Canvas","OnPortrail"); 
-        }
-        */
+
         verticalPanel.style.display = "block";
     }
 
     function HideVerticalWarningPanel() {    
-         /*
-        if(unityInstance!=null)
-        {
-            unityInstance.SendMessage("Canvas","OnLandscape"); 
-        }
-        */
+
         verticalPanel.style.display = "none";
     }
 
@@ -352,20 +336,28 @@
 
     function OnOrientationChange() {  
     
-        var orientation = GetOrientation();;  
+        var orientation = GetOrientation();
         console.log("Orientation:",orientation);
             switch (orientation) 
          {
               case "landscape-primary":
               case "landscape-secondary":
               case "landscape":
-                HideVerticalWarningPanel();         
+                HideVerticalWarningPanel();    
 
                 //Update iOS Canvas Size
-                if (CheckIOSDevice() && unityInstance != null)
-                { 
-                    SetPhotocallInIOSMode(); 
+                if(unityInstance != null)
+                {
+                    if (CheckIOSDevice())
+                    { 
+                        SetPhotocallInIOSMode(); 
+                    }
+                    else
+                    {
+                        SetPhotocallCanvasResolution(); 
+                    }
                 }
+               
                 break;
 
               case "portrait-secondary":  
@@ -427,7 +419,7 @@
 
         container.requestFullscreen({ navigationUI: "show" })
             .then(function() {
-                isFullscreen = true;
+                isFullscreen = true;               
         })
         .catch(err => {
         console.log(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
@@ -453,7 +445,10 @@
     function SendMessageOnFullscreenChange()
     {
         if(unityInstance != null)
+        {
+            SetPhotocallCanvasResolution();
             unityInstance.SendMessage('Canvas', 'OnFullscreenChange');
+        }
     }
 
     function MobileAndTabletCheck() {
@@ -486,6 +481,15 @@
         unityInstance.SendMessage("Canvas","OnIOS",jsonResult); 
     }
 
+    function SetPhotocallCanvasResolution()
+    {                                      
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+        var obj = { W: w, H: h};
+        var jsonResult = JSON.stringify(obj);
+        unityInstance.SendMessage("Canvas","SetPhotocallResolution",jsonResult); 
+    }
+
     window.addEventListener('orientationchange', function() 
     {
         var afterOrientationChange = function() 
@@ -506,7 +510,7 @@
               case "landscape-secondary":
               case "landscape":
                 //Delay 1 sec
-                setTimeout(SendMessageOnFullscreenChange, 2500);
+                setTimeout(SendMessageOnFullscreenChange, 100);
               break;
               default:break;
             }
