@@ -160,17 +160,12 @@
 
     <div id="unity-container" class="unity-desktop">
        
-        <canvas id="unity-canvas" ></canvas>
+        <canvas id="unity-canvas"></canvas>
        
         <! Over Canvas:> 
 
 
             <! Full Screen Button > 
-            <!--
-                <img class="fullscreenButton" id="fullscreenButton" onclick="FullScreen()" src="fullscreen-maximize.png" width="38" height="38">
-                <img id="RecoverFullscreenButton" onclick="RecoverFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
-                <img id="ForceFullscreenButton" onclick="ForceFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
-            -->
             <img id="RecoverFullscreenButton" onclick="RecoverFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
             <img id="ForceFullscreenButton" onclick="ForceFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
             <img id="ForceMinimizeFullscreenButton" onclick="ForceMinimizeFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
@@ -284,7 +279,7 @@
             console.log("Is iOS:",flag);
             return flag;
         }
-
+      
       function StopPropagation(event)
       {
            event.stopPropagation();
@@ -516,13 +511,6 @@
             }
         });
 
-
-canvas.addEventListener("pointerdown", ForceFocusCanvas, false);
-function ForceFocusCanvas(event)
-{
-console.log("POINTER DOWN");
-    window.focus();
-}
 
     </script>
  <noscript>Sorry, your browser does not support JavaScript!</noscript>
