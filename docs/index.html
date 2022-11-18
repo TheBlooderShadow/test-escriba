@@ -202,8 +202,8 @@
 
 
     </div>
-
-     <script type="text/javascript" src="https://libs.zappar.com/zappar-cv/0.3.12/zappar-cv.js"></script>
+    <script type="text/javascript" src="https://libs.zappar.com/zappar-cv/0.3.12/zappar-cv.js"></script>
+    <script src="https://libs.zappar.com/zappar-sharing/*/zappar-sharing.min.js"></script>
     <script>
         var db = indexedDB.open("dummy_indexdb", 1); // iOS 14.6 fix; the call to open indexdb hangs forever otherwise
 
@@ -511,6 +511,59 @@
             }
         });
 
+
+        /*
+        ZapparSharing({
+          data: url,
+          hideShareButton: true,
+        }, {
+          buttonCloseAnchor: {
+            width: '15px',
+            height: '15px',
+          },
+        });
+        *//*
+        ZapparSharing({
+          data: "dummy test message url",
+          onSave: () => {
+            console.log('Image was saved');
+          },
+          onShare: () => {
+            console.log('Share button was pressed');
+          },
+          onClose: () => {
+            console.log('Dialog was closed');
+          },
+        });
+        */
+        ZapparSharing({
+          data: url,
+          fileNamePrepend: 'Zappar',
+          shareUrl: 'www.zappar.com',
+          shareTitle: 'Hello World!',
+          shareText: 'Hello World!',
+          onSave: () => {
+            console.log('Image was saved');
+          },
+          onShare: () => {
+            console.log('Share button was pressed');
+          },
+          onClose: () => {
+            console.log('Dialog was closed');
+          },
+        }, 
+        {
+           buttonCloseAnchor: {
+            width: '15px',
+            height: '15px',
+          },
+        }
+        , {
+          SAVE: 'SAVE',
+          SHARE: 'SHARE',
+          NowOpenFilesAppToShare: 'Now open files app to share',
+          TapAndHoldToSave: 'Tap and hold the image<br/>to save to your Photos app',
+        });
 
     </script>
  <noscript>Sorry, your browser does not support JavaScript!</noscript>
