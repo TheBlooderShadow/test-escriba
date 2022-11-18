@@ -144,6 +144,17 @@
             transform: translateZ(0);
             animation: spinner-spin 1.1s infinite linear;
         }    
+        
+        #recoverFocusDiv
+        {
+            display: none;
+            background-color: red;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top:0px;
+            left:0px;
+        }
 
         @keyframes spinner-spin {
             0% {
@@ -200,8 +211,10 @@
                     <div class="spinner"></div>
             </div>
 
-
     </div>
+
+    <div id ="recoverFocusDiv"></div>
+
     <script type="text/javascript" src="https://libs.zappar.com/zappar-cv/0.3.12/zappar-cv.js"></script>
    
     <script>
@@ -225,6 +238,7 @@
         const verticalPanel = document.querySelector('#WarningVerticalPanel');
         const pcWarningPanel = document.querySelector('#pcWarningPanel');
         const logosPanel = document.querySelector('#logosPanel');
+        const recoverFocusDiv = document.querySelector('#recoverFocusDiv');
 
         if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
             container.className = "unity-mobile";
@@ -282,9 +296,12 @@
         
       function ForceFocusWindow()
       {
-        console.log("pointerdown");
+        console.log("ForceFocusWindow");
         window.focus();
+
+        recoverFocusDiv.style.display = "none";
       }
+
       container.addEventListener("pointerdown",ForceFocusWindow());
       container.onclick= ()=>
       {
@@ -522,59 +539,6 @@
             }
         });
 
-
-        /*
-        ZapparSharing({
-          data: url,
-          hideShareButton: true,
-        }, {
-          buttonCloseAnchor: {
-            width: '15px',
-            height: '15px',
-          },
-        });
-        *//*
-        ZapparSharing({
-          data: "dummy test message url",
-          onSave: () => {
-            console.log('Image was saved');
-          },
-          onShare: () => {
-            console.log('Share button was pressed');
-          },
-          onClose: () => {
-            console.log('Dialog was closed');
-          },
-        });
-        */
-        ZapparSharing({
-          data: url,
-          fileNamePrepend: 'Zappar',
-          shareUrl: 'www.zappar.com',
-          shareTitle: 'Hello World!',
-          shareText: 'Hello World!',
-          onSave: () => {
-            console.log('Image was saved');
-          },
-          onShare: () => {
-            console.log('Share button was pressed');
-          },
-          onClose: () => {
-            console.log('Dialog was closed');
-          },
-        }, 
-        {
-           buttonCloseAnchor: {
-            width: '15px',
-            height: '15px',
-          },
-        }
-        , {
-          SAVE: 'SAVE',
-          SHARE: 'SHARE',
-          NowOpenFilesAppToShare: 'Now open files app to share',
-          TapAndHoldToSave: 'Tap and hold the image<br/>to save to your Photos app',
-        });
 
     </script>
  <noscript>Sorry, your browser does not support JavaScript!</noscript>
