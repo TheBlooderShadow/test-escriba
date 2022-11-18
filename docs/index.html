@@ -14,6 +14,7 @@
             box-sizing: border-box;
             height: 100%;
             margin: 0;
+            background: purple;
         }
         
         p {
@@ -63,7 +64,7 @@
             width: 100%;
             height: 100%;
             position: absolute;
-            background:white;
+            background: green;
         }
 
         .warningPanel {
@@ -154,6 +155,7 @@
             height: 100%;
             top:0px;
             left:0px;
+            opacity: .5;
         }    
         
         #testAll
@@ -310,13 +312,11 @@
         function TestAllElements()
         {
             var all = document.getElementsByTagName("*");
-            var alllog = "";
+
             for (var i=0, max=all.length; i < max; i++) {
                  // Do something with the element here
                  console.log(all[i]);
-                 alllog += all[i];
             }
-            window.alert(alllog);
         }
 
       function ForceFocusWindow()
