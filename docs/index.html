@@ -203,7 +203,7 @@
 
     </div>
     <script type="text/javascript" src="https://libs.zappar.com/zappar-cv/0.3.12/zappar-cv.js"></script>
-    <script src="https://libs.zappar.com/zappar-sharing/*/zappar-sharing.min.js"></script>
+   
     <script>
         var db = indexedDB.open("dummy_indexdb", 1); // iOS 14.6 fix; the call to open indexdb hangs forever otherwise
 
@@ -279,7 +279,18 @@
             console.log("Is iOS:",flag);
             return flag;
         }
-      
+        
+      function ForceFocusWindow()
+      {
+        console.log("pointerdown");
+        window.focus();
+      }
+      container.addEventListener("pointerdown",ForceFocusWindow());
+      container.onclick= ()=>
+      {
+          console.log("CLICK CONTAINER");
+      }
+
       function StopPropagation(event)
       {
            event.stopPropagation();
