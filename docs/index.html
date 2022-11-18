@@ -347,9 +347,9 @@
 
         verticalPanel.style.display = "block";
 
-        if(unityInstance)
+        if(unityInstance !=null)
         {
-               unityInstance.SendMessage("Canvas","OnWarningPanel",true); 
+               unityInstance.SendMessage("Canvas","OnWarningPanel","true"); 
         }
     }
 
@@ -357,9 +357,9 @@
 
         verticalPanel.style.display = "none";
 
-        if(unityInstance)
+        if(unityInstance !=null)
         {
-               unityInstance.SendMessage("Canvas","OnWarningPanel",false); 
+               unityInstance.SendMessage("Canvas","OnWarningPanel","false"); 
         }
     }
 
