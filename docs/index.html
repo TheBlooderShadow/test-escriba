@@ -154,7 +154,17 @@
             height: 100%;
             top:0px;
             left:0px;
-            opacity:.5;
+        }    
+        
+        #testAll
+        {
+            display: block;
+            background-color: blue;
+            position: absolute;
+            width: 15%;
+            height: 15%;
+            bottom:0px;
+            left:0px;
         }
 
         @keyframes spinner-spin {
@@ -213,8 +223,9 @@
             </div>
 
     </div>
-
-    <div id ="recoverFocusDiv"></div>
+        
+    <div id ="recoverFocusDiv" onclick="ForceFocusWindow()"> </div>
+    <div id ="testAll" onclick="TestAllElements()"> </div>
 
     <script type="text/javascript" src="https://libs.zappar.com/zappar-cv/0.3.12/zappar-cv.js"></script>
    
@@ -295,18 +306,23 @@
             return flag;
         }
         
+
+        function TestAllElements()
+        {
+            var all = document.getElementsByTagName("*");
+            var alllog = "";
+            for (var i=0, max=all.length; i < max; i++) {
+                 // Do something with the element here
+                 console.log(all[i]);
+                 alllog += all[i];
+            }
+            window.alert(alllog);
+        }
+
       function ForceFocusWindow()
       {
-        console.log("ForceFocusWindow");
         window.focus();
-
         recoverFocusDiv.style.display = "none";
-      }
-
-      container.addEventListener("pointerdown",ForceFocusWindow());
-      container.onclick= ()=>
-      {
-          console.log("CLICK CONTAINER");
       }
 
       function StopPropagation(event)
