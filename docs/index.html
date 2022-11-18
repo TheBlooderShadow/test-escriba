@@ -286,13 +286,7 @@
           }).then((unity) => {              
             logosPanel.style.display = "none";
             unityInstance = unity;  
-            
-            //iOS Mode
-            if (CheckIOSDevice())
-            { 
-                SetPhotocallInIOSMode(); 
-            }
-
+       
             //Debug
             unityInstance.SendMessage("Canvas","DebugMode"); 
 
@@ -329,6 +323,7 @@
       {
         window.focus();
         recoverFocusDiv.style.display = "none";
+        ForceFullscreen();
       }
 
       function StopPropagation(event)
@@ -351,11 +346,21 @@
     function ShowVerticalWarningPanel() {  
 
         verticalPanel.style.display = "block";
+
+        if(unityInstance)
+        {
+               unityInstance.SendMessage("Canvas","OnWarningPanel",true); 
+        }
     }
 
     function HideVerticalWarningPanel() {    
 
         verticalPanel.style.display = "none";
+
+        if(unityInstance)
+        {
+               unityInstance.SendMessage("Canvas","OnWarningPanel",false); 
+        }
     }
 
     function getScreenOrientationIOS()
@@ -550,13 +555,15 @@
    addEventListener('fullscreenchange', (event) => 
         {   
             var orientation  = GetOrientation();
+            console.log("Fullscreen change with Orientation: ", orientation);
             switch (orientation) 
             {
               case "landscape-primary":
               case "landscape-secondary":
               case "landscape":
                 //Delay 1 sec
-                setTimeout(SendMessageOnFullscreenChange, 100);
+                //setTimeout(SendMessageOnFullscreenChange, 100);
+                SendMessageOnFullscreenChange();
               break;
               default:break;
             }
