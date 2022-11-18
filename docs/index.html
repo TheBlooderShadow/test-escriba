@@ -160,7 +160,7 @@
 
     <div id="unity-container" class="unity-desktop">
        
-        <canvas id="unity-canvas" onclick="FocusDocument()"></canvas>
+        <canvas id="unity-canvas" ></canvas>
        
         <! Over Canvas:> 
 
@@ -285,12 +285,6 @@
             return flag;
         }
 
-      function FocusDocument()
-      {
-         container.focus();
-         canvas.focus();
-      }
-      
       function StopPropagation(event)
       {
            event.stopPropagation();
@@ -523,7 +517,12 @@
         });
 
 
-	addEventListener('blur', (event) => { FocusDocument(); });
+canvas.addEventListener("pointerdown", ForceFocusCanvas, false);
+function ForceFocusCanvas(event)
+{
+console.log("POINTER DOWN");
+    window.focus();
+}
 
     </script>
  <noscript>Sorry, your browser does not support JavaScript!</noscript>
