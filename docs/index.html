@@ -577,7 +577,7 @@
             canvas.ontouchstart = (event)=>
             {
                 console.log("Canvas touch start",event)
-                var touch = getTouchPos(canvas, event);
+                var touch = getTouchPos(event);
                 
                   fileInput.style.top = touch.x +"px";
                   fileInput.style.left = touch.y + "px";
