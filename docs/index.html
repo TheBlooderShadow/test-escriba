@@ -542,11 +542,7 @@
             console.log("External Cast:",value);
         }
 
-    function ImageUploaderCaptureClick() 
-    { 
-          if (!document.getElementById('ImageUploaderInput'))
-          {
-          var fileInput = document.createElement('input');
+            var fileInput = document.createElement('input');
           fileInput.setAttribute('type', 'file');
           fileInput.setAttribute('accept', 'image/png, image/jpeg');
           fileInput.setAttribute('id', 'ImageUploaderInput');
@@ -556,29 +552,24 @@
           fileInput.style.height = "119.42px";
           fileInput.style.top = "0px";
           fileInput.style.left =  "0px";
-
           document.body.appendChild(fileInput);
-
           fileInput.onclick = function (event) {
             this.value = null;
           };
 
-          fileInput.onchange = function (event) 
-            {
-                var file = event.target.files[0];
+        fileInput.onchange = function (event) 
+        {
+            var file = event.target.files[0];
 
-                if (file) 
-                {
-                    if (/^image\//i.test(file.type)) {
-                        SendMessage('Canvas', 'FileSelected', URL.createObjectURL(file));
-                    } else {
-                        SendMessage('Canvas', 'FileSelected', 'Invalid image');
-                    }
-                } 
-              }
-          }
-          document.getElementById('ImageUploaderInput').click();      
-    }
+            if (file) 
+            {
+                if (/^image\//i.test(file.type)) {
+                    SendMessage('Canvas', 'FileSelected', URL.createObjectURL(file));
+                } else {
+                    SendMessage('Canvas', 'FileSelected', 'Invalid image');
+                }
+            } 
+        }
 
     document.addEventListener("DOMContentLoaded", ()=>{           
             unity_canvas = document.querySelector("#unity-container");
@@ -587,13 +578,12 @@
                 console.log("Canvas touch end")
                 setTimeout(() => {
                     console.log("Input: " + clickValue);
-                    if (clickValue != "Empty") ImageUploaderCaptureClick();
+                    if (clickValue != "Empty")   document.getElementById('ImageUploaderInput').click();    
                     clickValue = "Empty";
                 }, 50);
             };
             canvas.onclick = ()=>{ console.log("Canvas click") };
     });
-
     </script>
  <noscript>Sorry, your browser does not support JavaScript!</noscript>
 
