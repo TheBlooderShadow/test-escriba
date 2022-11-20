@@ -546,10 +546,11 @@
           fileInput.setAttribute('type', 'file');
           fileInput.setAttribute('accept', 'image/png, image/jpeg');
           fileInput.setAttribute('id', 'ImageUploaderInput');
-          fileInput.style.opacity = 0;          
+          fileInput.style.opacity = 0;   
+          input.style.display = "none";       
           fileInput.style.position = "absolute";
-          fileInput.style.width = "87.66089px";
-          fileInput.style.height = "119.42px";
+          fileInput.style.width = "100px";
+          fileInput.style.height = "100px";
           fileInput.style.top = "0px";
           fileInput.style.left =  "0px";
           document.body.appendChild(fileInput);
@@ -564,26 +565,49 @@
             if (file) 
             {
                 if (/^image\//i.test(file.type)) {
-                    unityInstance.SendMessage('Canvas', 'FileSelected', URL.createObjectURL(file));
+                   unityInstance.SendMessage('Canvas', 'FileSelected', URL.createObjectURL(file));
                 } else {
-                    unityInstance.SendMessage('Canvas', 'FileSelected', 'Invalid image');
+                  unityInstance.SendMessage('Canvas', 'FileSelected', 'Invalid image');
                 }
             } 
         }
 
     document.addEventListener("DOMContentLoaded", ()=>{           
             unity_canvas = document.querySelector("#unity-container");
-            canvas.ontouchstart = ()=>{ console.log("Canvas touch start") };
-            canvas.ontouchend = ()=>{
+            canvas.ontouchstart = (event)=>
+            {
+                console.log("Canvas touch start",event)
+                var touch = getTouchPos(canvas, event);
+                
+                  fileInput.style.top = touch.x +"px";
+                  fileInput.style.left = touch.y + "px";
+            };
+            
+                canvas.ontouchend = ()=>{
                 console.log("Canvas touch end")
                 setTimeout(() => {
                     console.log("Input: " + clickValue);
-                    if (clickValue != "Empty")   document.getElementById('ImageUploaderInput').click();    
+                    if (clickValue != "Empty")  
+                    {
+                        var input = document.getElementById('ImageUploaderInput');
+                        input.click();
+                        input.style.display = "none";
+                    }
                     clickValue = "Empty";
                 }, 50);
             };
             canvas.onclick = ()=>{ console.log("Canvas click") };
     });
+
+    // Get the position of a touch relative to the canvas
+    function getTouchPos(touchEvent) {
+      var rect = canvas.getBoundingClientRect();
+      return {
+        x: touchEvent.touches[0].clientX - rect.left,
+        y: touchEvent.touches[0].clientY - rect.top
+      };
+    }
+
     </script>
  <noscript>Sorry, your browser does not support JavaScript!</noscript>
 
