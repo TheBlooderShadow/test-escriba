@@ -334,21 +334,11 @@
     function ShowVerticalWarningPanel() {  
 
         verticalPanel.style.display = "block";
-        /*
-        if(unityInstance !=null)
-        {
-               unityInstance.SendMessage("Canvas","OnWarningPanel","false"); 
-        }*/
     }
 
     function HideVerticalWarningPanel() {    
 
         verticalPanel.style.display = "none";
-        /*
-        if(unityInstance !=null)
-        {
-               unityInstance.SendMessage("Canvas","OnWarningPanel","true"); 
-        }*/
     }
 
     function getScreenOrientationIOS()
@@ -384,18 +374,6 @@
               case "landscape":
                 HideVerticalWarningPanel();    
 
-                //Update iOS Canvas Size
-                if(unityInstance != null)
-                {
-                    if (CheckIOSDevice())
-                    { 
-                        SetPhotocallInIOSMode(); 
-                    }
-                    /*else
-                    {
-                        SetPhotocallCanvasResolution(); 
-                    }*/
-                }
                
                 break;
 
@@ -517,7 +495,7 @@
         var h = window.innerHeight;
         var obj = { W: w, H: h};
         var jsonResult = JSON.stringify(obj);
-        unityInstance.SendMessage("Canvas","OnIOS",jsonResult); 
+       // unityInstance.SendMessage("Canvas","OnIOS",jsonResult); 
     }
 
     function SetPhotocallCanvasResolution()
@@ -526,7 +504,7 @@
         var h = window.innerHeight;
         var obj = { W: w, H: h};
         var jsonResult = JSON.stringify(obj);
-        unityInstance.SendMessage("Canvas","SetPhotocallResolution",jsonResult); 
+       // unityInstance.SendMessage("Canvas","SetPhotocallResolution",jsonResult); 
     }
 
     window.addEventListener('orientationchange', function() 
@@ -557,6 +535,25 @@
             }
         });
 
+        function ExternalCastClick (value) {
+            clickValue = value;
+            console.log(value);
+        }
+
+
+        document.addEventListener("DOMContentLoaded", ()=>{           
+            unity_canvas = document.querySelector("#unity-container");
+            canvas.ontouchstart = ()=>{ console.log("Canvas touch start") };
+            canvas.ontouchend = ()=>{
+                console.log("Canvas touch end")
+                setTimeout(() => {
+                    console.log("Input: " + clickValue);
+                    if (clickValue != "Empty") ImageUploaderCaptureClick();
+                    clickValue = "Empty";
+                }, 50);
+            };
+            canvas.onclick = ()=>{ console.log("Canvas click") };
+        });
 
     </script>
  <noscript>Sorry, your browser does not support JavaScript!</noscript>
