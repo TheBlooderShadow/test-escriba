@@ -564,9 +564,9 @@
             if (file) 
             {
                 if (/^image\//i.test(file.type)) {
-                    SendMessage('Canvas', 'FileSelected', URL.createObjectURL(file));
+                    unityInstance.SendMessage('Canvas', 'FileSelected', URL.createObjectURL(file));
                 } else {
-                    SendMessage('Canvas', 'FileSelected', 'Invalid image');
+                    unityInstance.SendMessage('Canvas', 'FileSelected', 'Invalid image');
                 }
             } 
         }
