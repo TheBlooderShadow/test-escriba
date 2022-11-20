@@ -14,7 +14,7 @@
             box-sizing: border-box;
             height: 100%;
             margin: 0;
-            background: purple;
+            background: white;
         }
         
         p {
@@ -67,7 +67,7 @@
             width: 100%;
             height: 100%;
             position: absolute;
-            background: green;            
+            background: white;            
             position: absolute;
             top: 0px;
             left: 0px;
@@ -233,7 +233,6 @@
     </div>
         
     <div id ="recoverFocusDiv" onclick="ForceFocusWindow()"> </div>
-    <div id ="testAll" onclick="TestAllElements()"> </div>
 
     <script type="text/javascript" src="https://libs.zappar.com/zappar-cv/0.3.12/zappar-cv.js"></script>
    
@@ -306,17 +305,6 @@
             var flag = (/iPhone|iPad|iPod/i.test(navigator.userAgent) ||  /MacIntel/.test(navigator.platform) );
             console.log("Is iOS:",flag);
             return flag;
-        }
-        
-
-        function TestAllElements()
-        {
-            var all = document.getElementsByTagName("*");
-
-            for (var i=0, max=all.length; i < max; i++) {
-                 // Do something with the element here
-                 console.log(all[i]);
-            }
         }
 
       function ForceFocusWindow()
