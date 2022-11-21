@@ -426,10 +426,10 @@
         container.requestFullscreen({ navigationUI: "show" })
             .then(function() {
                 isFullscreen = true;   
-                
+                 
                 if(unityInstance!=null)
-                {
-                    unityInstance.SendMessage("Canvas","ForceUpdateCanvases()");
+                { 
+                    setTimeout(()=>{unityInstance.SendMessage("Canvas","ForceUpdateCanvases()");}, 100);               
                 }
         })
         .catch(err => {
