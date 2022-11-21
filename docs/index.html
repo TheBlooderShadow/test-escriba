@@ -429,7 +429,10 @@
                  
                 if(unityInstance!=null)
                 { 
-                    setTimeout(()=>{unityInstance.SendMessage("Canvas","ForceUpdateCanvases()");}, 100);               
+                    setTimeout(()=>{
+console.log("Send Update");
+unityInstance.SendMessage("Canvas","ForceUpdateCanvases()");
+}, 100);               
                 }
         })
         .catch(err => {
