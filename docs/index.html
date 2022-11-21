@@ -447,6 +447,11 @@
         document.exitFullscreen()
         .then(function() {                    
             isFullscreen = false;
+                if(unityInstance!=null)
+                { 
+                    console.log("canvas OnMinimize");
+                    setTimeout(()=>{unityInstance.SendMessage("Canvas","OnMinimize");}, 1000);               
+                }
         })
         .catch(function(error) {
 	        console.log("FullScreen can not be exit");
