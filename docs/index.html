@@ -278,6 +278,11 @@
             unityInstance.SendMessage("Canvas","DebugMode"); 
 
             OnOrientationChange();
+
+            var w = window.innerWidth;
+            var h = window.innerHeight;
+            var jsonResult = JSON.stringify({ W: w, H: h});
+            unityInstance.SendMessage("Canvas","SetPhotocallResolution",jsonResult);    
             
           }).catch((message) => {
                 alert(message);
@@ -469,7 +474,15 @@
         //Show PC warning
         SetDisplayPCWarningPanel(true);
     }
-        
+    
+    document.addEventListener('fullscreenchange', ()=>
+    {  
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+        var jsonResult = JSON.stringify({ W: w, H: h});
+        unityInstance.SendMessage("Canvas","SetPhotocallResolution",jsonResult);  
+    });
+
     window.addEventListener('orientationchange', function() 
     {
         var afterOrientationChange = function() 
