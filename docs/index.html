@@ -425,13 +425,7 @@
 
         container.requestFullscreen({ navigationUI: "show" })
             .then(function() {
-                isFullscreen = true;   
-                 
-                if(unityInstance!=null)
-                { 
-                    console.log("canvas updated");
-                    setTimeout(()=>{unityInstance.SendMessage("Canvas","ForceUpdateCanvases");}, 1000);               
-                }
+                isFullscreen = true;
         })
         .catch(err => {
         console.log(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
@@ -447,11 +441,6 @@
         document.exitFullscreen()
         .then(function() {                    
             isFullscreen = false;
-                if(unityInstance!=null)
-                { 
-                    console.log("canvas OnMinimize");
-                    setTimeout(()=>{unityInstance.SendMessage("Canvas","OnMinimize");}, 1000);               
-                }
         })
         .catch(function(error) {
 	        console.log("FullScreen can not be exit");
