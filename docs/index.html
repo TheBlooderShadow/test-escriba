@@ -78,7 +78,7 @@
             width: 100%;
             height: 100%;
             position: absolute;
-            /* display: none !important; */
+            display: none !important; 
             user-select: none;
         }         
         .warningContent {
@@ -164,17 +164,6 @@
             opacity: .5;
         }    
         
-        #testAll
-        {
-            display: block;
-            background-color: blue;
-            position: absolute;
-            width: 15%;
-            height: 15%;
-            bottom:0px;
-            left:0px;
-        }
-
         @keyframes spinner-spin {
             0% {
                 transform: rotate(0deg);
@@ -199,8 +188,7 @@
             <img id="RecoverFullscreenButton" onclick="RecoverFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
             <img id="ForceFullscreenButton" onclick="ForceFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
             <img id="ForceMinimizeFullscreenButton" onclick="ForceMinimizeFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
-         
-                              
+                                       
             <! Orientation Warning > 
 
             <div class="warningPanel" id="WarningVerticalPanel" onclick="StopPropagation(event)"> 
@@ -362,7 +350,9 @@
         }
         
     }
-
+    
+    var orientation = "";
+    
     function OnOrientationChange() {  
     
         var orientation = GetOrientation();
@@ -414,7 +404,6 @@
         }
     }    
     
-
     const RecoverFullscreen = () => 
     {
         if (isFullscreen)
@@ -436,7 +425,12 @@
 
         container.requestFullscreen({ navigationUI: "show" })
             .then(function() {
-                isFullscreen = true;               
+                isFullscreen = true;   
+                
+                if(unityInstance!=null)
+                {
+                    unityInstance.SendMessage("Canvas","ForceUpdateCanvases()");
+                }
         })
         .catch(err => {
         console.log(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
@@ -458,15 +452,7 @@
 	        console.log(error.message);
         });      
     }
-    
-    function SendMessageOnFullscreenChange()
-    {
-        if(unityInstance != null)
-        {
-            SetPhotocallCanvasResolution();
-            unityInstance.SendMessage('Canvas', 'OnFullscreenChange');
-        }
-    }
+
 
     function MobileAndTabletCheck() {
         var check = false;
@@ -489,24 +475,6 @@
         SetDisplayPCWarningPanel(true);
     }
         
-    function SetPhotocallInIOSMode()
-    {                                      
-        var w = window.innerWidth;
-        var h = window.innerHeight;
-        var obj = { W: w, H: h};
-        var jsonResult = JSON.stringify(obj);
-       // unityInstance.SendMessage("Canvas","OnIOS",jsonResult); 
-    }
-
-    function SetPhotocallCanvasResolution()
-    {                                      
-        var w = window.innerWidth;
-        var h = window.innerHeight;
-        var obj = { W: w, H: h};
-        var jsonResult = JSON.stringify(obj);
-       // unityInstance.SendMessage("Canvas","SetPhotocallResolution",jsonResult); 
-    }
-
     window.addEventListener('orientationchange', function() 
     {
         var afterOrientationChange = function() 
@@ -517,32 +485,13 @@
             window.addEventListener('resize', afterOrientationChange);
     });
 
-            
-   addEventListener('fullscreenchange', (event) => 
-        {   
-            var orientation  = GetOrientation();
-            console.log("Fullscreen change with Orientation: ", orientation);
-            switch (orientation) 
-            {
-              case "landscape-primary":
-              case "landscape-secondary":
-              case "landscape":
-                //Delay 1 sec
-                //setTimeout(SendMessageOnFullscreenChange, 100);
-                //SendMessageOnFullscreenChange();
-              break;
-              default:break;
-            }
-        });
-
         var clickValue = "Empty";
 
         function ExternalCastClick(value) {
             clickValue = value;
-            console.log("External Cast:",value);
         }
 
-            var fileInput = document.createElement('input');
+          var fileInput = document.createElement('input');
           fileInput.setAttribute('type', 'file');
           fileInput.setAttribute('accept', 'image/png, image/jpeg');
           fileInput.setAttribute('id', 'ImageUploaderInput');
@@ -555,8 +504,8 @@
           fileInput.style.left =  "0px";
           document.body.appendChild(fileInput);
           fileInput.onclick = function (event) {
-            this.value = null;
-          };
+          this.value = null;
+        };
 
         fileInput.onchange = function (event) 
         {
@@ -576,7 +525,6 @@
             unity_canvas = document.querySelector("#unity-container");
             canvas.ontouchstart = (event)=>
             {
-                console.log("Canvas touch start",event)
                 var touch = getTouchPos(event);
                 
                   fileInput.style.top = touch.x +"px";
@@ -584,9 +532,7 @@
             };
             
                 canvas.ontouchend = ()=>{
-                console.log("Canvas touch end")
                 setTimeout(() => {
-                    console.log("Input: " + clickValue);
                     if (clickValue != "Empty")  
                     {
                         var input = document.getElementById('ImageUploaderInput');
@@ -595,8 +541,7 @@
                     }
                     clickValue = "Empty";
                 }, 50);
-            };
-            canvas.onclick = ()=>{ console.log("Canvas click") };
+            };           
     });
 
     // Get the position of a touch relative to the canvas
