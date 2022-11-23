@@ -524,9 +524,9 @@
         fileInput.onchange = function (event) 
         {
             var file = event.target.files[0];
-            console.log(file.name);
-            console.log(file.size);
-            console.log(file.type);
+		window.alert(file.name);
+		window.alert(file.size);
+		window.alert(file.type);
 
             if (file) 
             {
