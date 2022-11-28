@@ -194,6 +194,34 @@
             background: #a9233c;
         }
 
+        #ShareButton {
+            position:absolute;
+            top: 0px;
+            left: 0px;
+            height: 10%;
+            width: 10%;
+            background-color:blue;
+        }    
+        #ShareButtonClose {
+            position:absolute;
+            top: 20px;
+            left: 0px;
+            height: 10%;
+            width: 10%;
+            background-color:blue;
+        }
+
+        #ShareButtonDiv {
+            display: none;
+            position:absolute;
+            top: 0px;
+            left: 0px;
+            height: 100%;
+            width: 100%;
+            background-color:black;
+            opacity: .5;
+        }
+
         @keyframes spinner-spin {
             0% {
                 transform: rotate(0deg);
@@ -213,12 +241,17 @@
        
         <! Over Canvas:> 
 
-
             <! Full Screen Button > 
             <img id="RecoverFullscreenButton" onclick="RecoverFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
             <img id="ForceFullscreenButton" onclick="ForceFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
             <img id="ForceMinimizeFullscreenButton" onclick="ForceMinimizeFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
-                                       
+           
+            <div id="ShareButtonDiv" >
+                <button id="ShareButton"  onclick="OpenNativeShare()"> SHARE </button>  
+                <button id="ShareButtonClose"  onclick="CloseShareDiv()"> CLOSE-SHARE </button>  
+            </div>
+                             
+
             <! Orientation Warning > 
 
             <div class="warningPanel" id="WarningVerticalPanel" onclick="StopPropagation(event)"> 
@@ -289,7 +322,9 @@
         var pcWarningPanel = document.querySelector('#pcWarningPanel');
         var logosPanel = document.querySelector('#logosPanel');
         var recoverFocusDiv = document.querySelector('#recoverFocusDiv');
-
+        var forceMinimizeFullscreenButton = document.querySelector('#ForceMinimizeFullscreenButton');
+        var shareButtonDiv = document.querySelector('#ShareButtonDiv');
+        
         if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
             container.className = "unity-mobile";
             //config.matchWebGLToCanvasSize = false;    
@@ -577,11 +612,31 @@
          */
     });
 
+
         var clickValue = "Empty";
         var shareData;
 
         function ExternalSetShareData (data) {
             shareData = JSON.parse(data);
+             shareButtonDiv.style.display = "block";
+        }
+
+        function OpenNativeShare()
+        {
+            try {
+                navigator.share(shareData);
+                forceMinimizeFullscreenButton.click(); 
+             } 
+             catch (error) 
+             {
+                 console.log('Sharing failed!', error);
+             } 
+        }  
+        
+        function CloseShareDiv()
+        {
+            shareButtonDiv.style.display = "none";
+            ForceFocusWindow();
         }
 
         function ExternalCastClick(value) {
