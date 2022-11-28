@@ -78,7 +78,7 @@
             width: 100%;
             height: 100%;
             position: absolute;
-            display: none !important; 
+            /* display: none !important;  */
             user-select: none;
         }         
         .warningContent {
@@ -181,6 +181,19 @@
             text-align: center;
         } 
         
+        #loadingBarContainer {
+            position: absolute;
+            left: 0;
+            bottom: 0px;
+            width: 100%;
+            height: 12px;
+        }
+        #loadingBar {
+            height: 100%;
+            width: 0%;
+            background: #a9233c;
+        }
+
         @keyframes spinner-spin {
             0% {
                 transform: rotate(0deg);
@@ -232,7 +245,10 @@
 
             <div class="logosPanelDiv" id="logosPanel" onclick="StopPropagation(event)" > 
                     <img id="logo" src="PantallaLogos.png" width="844" height="390">
-                    <div class="spinner"></div>
+                    <!-- <div class="spinner"></div> -->
+                    <div id="loadingBarContainer">
+                        <div id="loadingBar"></div>
+                    </div>
             </div>
 
     </div>
@@ -248,25 +264,31 @@
     <script>
         var db = indexedDB.open("dummy_indexdb", 1); // iOS 14.6 fix; the call to open indexdb hangs forever otherwise
 
-        const buildUrl = "Build";
-        const loaderUrl = buildUrl + "/htdocs.loader.js";
-        const config = {
-            dataUrl: buildUrl + "/htdocs.data.unityweb",
-            frameworkUrl: buildUrl + "/htdocs.framework.js.unityweb",
-            codeUrl: buildUrl + "/htdocs.wasm.unityweb",
+        var buildUrl = "Build";
+        var loaderUrl = buildUrl + "/docs.loader.js";
+        if (CheckIOSDevice()) {
+            console.log("Loading iOS version")
+            buildUrl = buildUrl + "-ios"
+        } else {
+            console.log("Loading android version")
+        }
+        var config = {
+            dataUrl: buildUrl + "/docs.data.unityweb",
+            frameworkUrl: buildUrl + "/docs.framework.js.unityweb",
+            codeUrl: buildUrl + "/docs.wasm.unityweb",
             streamingAssetsUrl: "StreamingAssets",
             companyName: "DefaultCompany",
             productName: "image-tracking-3d-animation",
             productVersion: "0.1",
         };
 
-        const container = document.querySelector("#unity-container");
-        const canvas = document.querySelector("#unity-canvas");
-        const spinner = document.querySelector('.spinner');
-        const verticalPanel = document.querySelector('#WarningVerticalPanel');
-        const pcWarningPanel = document.querySelector('#pcWarningPanel');
-        const logosPanel = document.querySelector('#logosPanel');
-        const recoverFocusDiv = document.querySelector('#recoverFocusDiv');
+        var container = document.querySelector("#unity-container");
+        var canvas = document.querySelector("#unity-canvas");
+        var spinner = document.querySelector('.spinner');
+        var verticalPanel = document.querySelector('#WarningVerticalPanel');
+        var pcWarningPanel = document.querySelector('#pcWarningPanel');
+        var logosPanel = document.querySelector('#logosPanel');
+        var recoverFocusDiv = document.querySelector('#recoverFocusDiv');
 
         if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
             container.className = "unity-mobile";
@@ -279,18 +301,60 @@
 
         window.zappar.permission_request_ui_promise().then(WaitForZCVLoad);
 
+        function iOSversion() {
+          if (/iP(hone|od|ad)/.test(navigator.platform)) {
+            var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
+            return [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)];
+          }
+        }
+
         function WaitForZCVLoad() {
             if (zappar.loaded()) {
-                CreateUnityLoader();
-                return;
+                if(/iPhone|iPad|iPod|/i.test(navigator.userAgent)) {
+                    var ver = iOSversion();
+                    console.log("Ver: "+ ver);
+                    if (ver == undefined) {
+                        console.log("iOS Version undefined, loading build anyway.");
+                        CreateUnityLoader();
+                        return;
+                    }
+                    if(ver[0] <= 12 || (ver[0] == 15 && ver[1] == 4)) {
+                        alert("¡Lo sentimos! Tu móvil no es compatible con esta experiencia interactiva.");
+                        console.warn("Unsupported iOS Version, build will not load.");
+                        return;
+                    }
+                    else {
+                        CreateUnityLoader();
+                        return;
+                    }
+                }
+                else {
+                    CreateUnityLoader();
+                    return;
+                }
             }
             setTimeout(WaitForZCVLoad, 500);
         }        
 
         var unityInstance;
 
+        // Loading Bar
+        var loadingProgress = 0;
+        var progressBar = document.getElementById("loadingBar")
+        let loadingInterval = setInterval(() => {
+            UpdateLoadingProgress(loadingProgress);
+        }, 50)
+        function UpdateLoadingProgress (progress) {
+            progressBar.style.width = (progress * 100) + "%";
+
+            if (progress == 1) {
+                clearInterval(loadingInterval)
+            }
+        }
+
         function CreateUnityLoader() {
           createUnityInstance(canvas, config, (progress) => {
+            loadingProgress = progress
           }).then((unity) => {              
             logosPanel.style.display = "none";
             unityInstance = unity;         
@@ -302,7 +366,8 @@
                 alert(message);
           });
         }
-                
+
+
         const script = document.createElement("script");
         script.src = loaderUrl;
         document.body.appendChild(script);
@@ -338,14 +403,24 @@
         }
     }
 
-    function ShowVerticalWarningPanel() {  
-
+    function ShowVerticalWarningPanel()
+    {  
         verticalPanel.style.display = "block";
+        canvas.style.display = "none";
+        if(unityInstance)
+        {
+            unityInstance.SendMessage("Canvas","OnWarningPanel","false");
+        }
     }
 
-    function HideVerticalWarningPanel() {    
-
+    function HideVerticalWarningPanel() 
+    {    
         verticalPanel.style.display = "none";
+        canvas.style.display = "block";
+        if(unityInstance)
+        {
+            unityInstance.SendMessage("Canvas","OnWarningPanel","true");
+        }
     }
 
     function getScreenOrientationIOS()
@@ -490,16 +565,24 @@
     }
 
     window.addEventListener('orientationchange', function() 
-    {
+    { 
+        OnOrientationChange();
+        /*
         var afterOrientationChange = function() 
         {
             OnOrientationChange();
             window.removeEventListener('resize', afterOrientationChange);
         };
             window.addEventListener('resize', afterOrientationChange);
+         */
     });
 
         var clickValue = "Empty";
+        var shareData;
+
+        function ExternalSetShareData (data) {
+            shareData = JSON.parse(data);
+        }
 
         function ExternalCastClick(value) {
             clickValue = value;
@@ -524,9 +607,6 @@
         fileInput.onchange = function (event) 
         {
             var file = event.target.files[0];
-		window.alert(file.name);
-		window.alert(file.size);
-		window.alert(file.type);
 
             if (file) 
             {
@@ -548,17 +628,23 @@
                   fileInput.style.left = touch.y + "px";
             };
             
-                canvas.ontouchend = ()=>{
+            canvas.ontouchend = ()=>{
                 setTimeout(() => {
-                    if (clickValue != "Empty")  
-                    {
+                    console.log(clickValue);
+                    if (clickValue == "share") {
+                        try {
+                            navigator.share(shareData)
+                        } catch (e) {
+                            console.log("Share aborted")
+                        }
+                    } else if (clickValue != "Empty") {
                         var input = document.getElementById('ImageUploaderInput');
                         input.click();
                         input.style.display = "none";
                     }
-                    clickValue = "Empty";
+                        clickValue = "Empty";
                 }, 50);
-            };           
+            };         
     });
 
     // Get the position of a touch relative to the canvas
