@@ -369,13 +369,13 @@
         var db = indexedDB.open("dummy_indexdb", 1); // iOS 14.6 fix; the call to open indexdb hangs forever otherwise
 
         var buildUrl = "Build";
-        var loaderUrl = buildUrl + "/docs.loader.js";
         if (CheckIOSDevice()) {
             console.log("Loading iOS version")
             buildUrl = buildUrl + "-ios"
         } else {
             console.log("Loading android version")
         }
+        var loaderUrl = buildUrl + "/docs.loader.js";
         var config = {
             dataUrl: buildUrl + "/docs.data",
             frameworkUrl: buildUrl + "/docs.framework.js",
@@ -542,7 +542,11 @@
     {
         if (CheckIOSDevice())
         {
-            return getScreenOrientationIOS();
+            // return getScreenOrientationIOS();
+            let orientation = "";
+            if (window.orientation == 90 || window.orientation == -90) orientation = "landscape";
+            else orientation =  "portrait";
+            return orientation;
         }
         else
         {
