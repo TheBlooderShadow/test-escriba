@@ -163,7 +163,6 @@
             height: 100%;
             top:0px;
             left:0px;
-            opacity: .4;
         }    
         
         #recoverFocusDiv p {
@@ -186,40 +185,95 @@
             left: 0;
             bottom: 0px;
             width: 100%;
-            height: 12px;
+            height: 58px;
+            padding: 10px;
         }
         #loadingBar {
-            height: 100%;
+            height: 12px;
             width: 0%;
             background: #a9233c;
+            border-radius: 10px;
         }
 
-        #ShareButton {
-            position:absolute;
-            top: 0px;
-            left: 0px;
-            height: 10%;
-            width: 10%;
-            background-color:blue;
-        }    
-        #ShareButtonClose {
-            position:absolute;
-            top: 20%;
-            left: 0px;
-            height: 10%;
-            width: 10%;
-            background-color:blue;
+        #loadingBarContainer p {
+            font-size: 16px;
+            margin: 0;
+            margin-bottom: 7px;
+            text-align: center;
         }
 
-        #ShareButtonDiv {
+        #SharePanelWrapper {
             display: none;
             position:absolute;
             top: 0px;
             left: 0px;
             height: 100%;
             width: 100%;
-            background-color:black;
-            opacity: .5;
+            background-color: #372c4de0;
+            z-index: 1;
+            color: #fff;
+            align-content: center;
+            justify-content: center;
+        }
+
+        #SharePanelWrapper .panel {
+            background: #AA233C;
+            border-radius: 20px;
+            font-size: 16px;
+            padding: 20px;
+            text-align: center;
+            width: auto;
+            margin: auto;
+            position: relative;
+        }
+
+        #SharePanelWrapper .panel p {
+            font-size: inherit;
+            color: inherit;
+            margin: auto;
+            margin-bottom: 20px;
+        }
+        #SharePanelWrapper .panel p.url {
+            background: #fff;
+            color: #372C4D;
+            padding: 10px 15px;
+            border-radius: 20px;
+            width: max-content;
+            font-size: 14px;
+        }
+
+        #SharePanelWrapper button {
+            cursor: pointer;
+        }
+
+        #ShareButton {
+            border: none;
+            background: #fff url(ShareIcon.png) 15px center no-repeat;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-family: defaultFont;
+            font-size: 16px;
+            background-size: 20px;
+            padding-left: 40px;
+        }
+
+        #ShareButtonClose {
+            position: absolute;
+            top: -11px;
+            right: -7px;
+            width: 33px;
+            height: 33px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            background: #A9233C url("closeButton.png") center center no-repeat;
+            color: #fff0;
+            box-shadow: 2px 2px 0 #372c4d;
+            background-size: 13px;
+        }
+
+        button:active {
+            transform: scale(0.97);
+            opacity: .9;
         }
 
         @keyframes spinner-spin {
@@ -231,59 +285,76 @@
                 transform: rotate(360deg);
             }
         }
+
+        .orientleft #shell {
+            -webkit-transform: rotate(-90deg);
+            -webkit-transform-origin:160px 160px;
+        }
+
+        .orientright #shell {
+            -webkit-transform: rotate(90deg);
+            -webkit-transform-origin:230px 230px;
+        } 
     </style>
 </head>
 <body class="dark">
-
-    <div id="unity-container" class="unity-desktop">
-       
-        <canvas id="unity-canvas"></canvas>
-       
-        <! Over Canvas:> 
-
-            <! Full Screen Button > 
-            <img id="RecoverFullscreenButton" onclick="RecoverFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
-            <img id="ForceFullscreenButton" onclick="ForceFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
-            <img id="ForceMinimizeFullscreenButton" onclick="ForceMinimizeFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
+    <div id="orient">
+        <div id="unity-container" class="unity-desktop">
            
-            <div id="ShareButtonDiv" >
-                <button id="ShareButton"  onclick="OpenNativeShare()"> SHARE </button>  
-                <button id="ShareButtonClose"  onclick="CloseShareDiv()"> CLOSE-SHARE </button>  
-            </div>
-                             
-
-            <! Orientation Warning > 
-
-            <div class="warningPanel" id="WarningVerticalPanel" onclick="StopPropagation(event)"> 
-                    <div class="warningContent" >
-                    <img class="warningIcon" src="Image-HorizontalInstructions.png" width="158" height="92">
-                    <p>
-                    Esta experiencia está diseñada para ser vista en formato horizontal. Por favor, gira el móvil para poder disfrutar de ella.
-                    </p>
+            <canvas id="unity-canvas"></canvas>
+           
+            <! Over Canvas:> 
+    
+                <! Full Screen Button > 
+                <img id="RecoverFullscreenButton" onclick="RecoverFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
+                <img id="ForceFullscreenButton" onclick="ForceFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
+                <img id="ForceMinimizeFullscreenButton" onclick="ForceMinimizeFullscreen()" src="fullscreen-maximize.png" width="1" height="1">
+                
+                <! Share Panel > 
+                <div id="SharePanelWrapper" >
+                    <div class="panel">
+                        <p>Aquí tienes tu felicitación única:</p>
+                        <p class="url"></p>
+                        <button id="ShareButton" onclick="OpenNativeShare()">Compartir</button>
+                        <button id="ShareButtonClose" onclick="CloseShareDiv()">x</button>
                     </div>
-            </div>
-            
-            <! PC Warning> 
-
-            <div class="warningPanel" id="pcWarningPanel" onclick="StopPropagation(event)"  > 
-                    <div class="warningContent">
-                    <img  class="warningIcon"  src="Image-HorizontalInstructions.png" width="158" height="92">
-                    <p>
-                    Esta experiencia está diseñada para acceder desde dispositivos móviles. Por favor, vuelve a cargar la dirección web desde uno de estos dispositivos.
-                    </p>
-                    </div>
-            </div>
-
-            <! LOADING > 
-
-            <div class="logosPanelDiv" id="logosPanel" onclick="StopPropagation(event)" > 
-                    <img id="logo" src="PantallaLogos.png" width="844" height="390">
-                    <!-- <div class="spinner"></div> -->
-                    <div id="loadingBarContainer">
-                        <div id="loadingBar"></div>
-                    </div>
-            </div>
-
+                </div>
+                                 
+    
+                <! Orientation Warning > 
+    
+                <div class="warningPanel" id="WarningVerticalPanel" onclick="StopPropagation(event)"> 
+                        <div class="warningContent" >
+                        <img class="warningIcon" src="Image-HorizontalInstructions.png" width="158" height="92">
+                        <p>
+                        Esta experiencia está diseñada para ser vista en formato horizontal. Por favor, gira el móvil para poder disfrutar de ella.
+                        </p>
+                        </div>
+                </div>
+                
+                <! PC Warning> 
+    
+                <div class="warningPanel" id="pcWarningPanel" onclick="StopPropagation(event)"  > 
+                        <div class="warningContent">
+                        <img  class="warningIcon"  src="Image-HorizontalInstructions.png" width="158" height="92">
+                        <p>
+                        Esta experiencia está diseñada para acceder desde dispositivos móviles. Por favor, vuelve a cargar la dirección web desde uno de estos dispositivos.
+                        </p>
+                        </div>
+                </div>
+    
+                <! LOADING > 
+    
+                <div class="logosPanelDiv" id="logosPanel" onclick="StopPropagation(event)" > 
+                        <img id="logo" src="PantallaLogos.png" width="844" height="390">
+                        <!-- <div class="spinner"></div> -->
+                        <div id="loadingBarContainer">
+                            <p>Cargando...</p>
+                            <div id="loadingBar"></div>
+                        </div>
+                </div>
+    
+        </div>
     </div>
         
     <div id ="recoverFocusDiv" onclick="ForceFocusWindow()">
@@ -306,9 +377,9 @@
             console.log("Loading android version")
         }
         var config = {
-            dataUrl: buildUrl + "/docs.data.unityweb",
-            frameworkUrl: buildUrl + "/docs.framework.js.unityweb",
-            codeUrl: buildUrl + "/docs.wasm.unityweb",
+            dataUrl: buildUrl + "/docs.data",
+            frameworkUrl: buildUrl + "/docs.framework.js",
+            codeUrl: buildUrl + "/docs.wasm",
             streamingAssetsUrl: "StreamingAssets",
             companyName: "DefaultCompany",
             productName: "image-tracking-3d-animation",
@@ -323,7 +394,7 @@
         var logosPanel = document.querySelector('#logosPanel');
         var recoverFocusDiv = document.querySelector('#recoverFocusDiv');
         var forceMinimizeFullscreenButton = document.querySelector('#ForceMinimizeFullscreenButton');
-        var shareButtonDiv = document.querySelector('#ShareButtonDiv');
+        var SharePanelWrapper = document.querySelector('#SharePanelWrapper');
         
         if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
             container.className = "unity-mobile";
@@ -533,8 +604,7 @@
         }
     }    
     
-    const RecoverFullscreen = () => 
-    {
+    function RecoverFullscreen() {
         if (isFullscreen)
         {
             container.requestFullscreen({ navigationUI: "show" })
@@ -546,8 +616,7 @@
         }
     }
 
-    const ForceFullscreen = () => 
-    {
+    function ForceFullscreen() {
         if (CheckIOSDevice()) {
             return;
         }
@@ -561,8 +630,7 @@
         });        
     }
     
-    const ForceMinimizeFullscreen = () => 
-    {
+    function ForceMinimizeFullscreen() {
         if (CheckIOSDevice()) {
             return;
         }
@@ -599,6 +667,19 @@
         SetDisplayPCWarningPanel(true);
     }
 
+    window.addEventListener('onorientationchange', function () {
+        if (window.orientation == -90) {
+            document.getElementById('orient').className = 'orientright';
+        }
+        if (window.orientation == 90) {
+            document.getElementById('orient').className = 'orientleft';
+        }
+        if (window.orientation == 0) {
+            document.getElementById('orient').className = '';
+        }
+    }, true);
+
+
     window.addEventListener('orientationchange', function() 
     { 
         OnOrientationChange();
@@ -618,7 +699,8 @@
 
         function ExternalSetShareData (data) {
             shareData = JSON.parse(data);
-             shareButtonDiv.style.display = "block";
+            SharePanelWrapper.style.display = "flex";
+            document.querySelectorAll("#SharePanelWrapper .url")[0].innerHTML = shareData.url;
         }
 
         function OpenNativeShare()
@@ -635,7 +717,7 @@
         
         function CloseShareDiv()
         {
-            shareButtonDiv.style.display = "none";
+            SharePanelWrapper.style.display = "none";
             ForceFocusWindow();
         }
 
