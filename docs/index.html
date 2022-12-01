@@ -512,7 +512,7 @@
     function ShowVerticalWarningPanel()
     {  
         verticalPanel.style.display = "block";
-        
+        //canvas.style.display = "none";
         if(unityInstance)
         {
             unityInstance.SendMessage("Canvas","OnWarningPanel","false");
@@ -522,7 +522,7 @@
     function HideVerticalWarningPanel() 
     {    
         verticalPanel.style.display = "none";
-      
+        //canvas.style.display = "block";
         if(unityInstance)
         {
             unityInstance.SendMessage("Canvas","OnWarningPanel","true");
@@ -566,11 +566,8 @@
               case "landscape-primary":
               case "landscape-secondary":
               case "landscape":
-                HideVerticalWarningPanel();    
-
-               
+                HideVerticalWarningPanel();
                 break;
-
               case "portrait-secondary":  
               case "portrait-primary":  
               case "portrait":
@@ -694,7 +691,7 @@
             window.removeEventListener('resize', afterOrientationChange);
         };
             window.addEventListener('resize', afterOrientationChange);
-         */
+        */
     });
 
 
